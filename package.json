@@ -1,0 +1,19 @@
+{
+    "name": "age-calculator-app",
+    "version": "1.0.0",
+    "description": "![Design preview for the Age calculator app coding challenge](./design/desktop-preview.jpg)",
+    "main": "index.js",
+    "scripts": {
+        "start": "parcel index.html"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "normalize.css": "^8.0.1",
+        "parcel": "^2.9.1"
+    },
+    "devDependencies": {
+        "@parcel/transformer-sass": "^2.9.1"
+    }
+}
