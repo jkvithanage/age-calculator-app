@@ -10,11 +10,40 @@
         <script type="module" src="src/js/controller.js"></script>
     </head>
     <body>
-        Day DD Month MM Year YYYY -- years -- months -- days
-
-        <div class="attribution">
-            Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
-            Coded by <a href="#">Your Name Here</a>.
+        <div class="container">
+            <div class="card">
+                <form>
+                    <div class="inputs">
+                        <div class="form-field">
+                            <label for="day">DAY</label>
+                            <input type="number" id="day" value="" placeholder="DD" />
+                        </div>
+                        <div class="form-field">
+                            <label for="month">MONTH</label>
+                            <input type="number" id="month" value="" placeholder="MM" />
+                        </div>
+                        <div class="form-field">
+                            <label for="year">YEAR</label>
+                            <input type="number" id="year" value="" placeholder="YYYY" />
+                        </div>
+                    </div>
+                    <div class="btn-field">
+                        <hr />
+                        <button type="submit" class="btn-submit">
+                            <img src="./assets/images/icon-arrow.svg" alt="icon-arrow" />
+                        </button>
+                    </div>
+                </form>
+                <div class="output">
+                    <p><span class="output-year">--</span> years</p>
+                    <p><span class="output-month">--</span> months</p>
+                    <p><span class="output-days">--</span> days</p>
+                </div>
+            </div>
+            <div class="attribution">
+                Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+                Coded by <a href="https://github.com/jkvithanage" target="_blank">Janaka Vithanage</a>.
+            </div>
         </div>
     </body>
 </html>
