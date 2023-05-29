@@ -12,11 +12,6 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-/* Firefox */
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
 html {
     font-size: 62.5%;
 }
@@ -25,41 +20,6 @@ body {
     font-family: "Poppins";
     line-height: 1.5;
     font-size: 1.5rem;
-}
-
-// Typography
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-    margin-bottom: 1.5rem;
-    line-height: 1.1;
-}
-
-h1 {
-    font-size: 6rem;
-}
-
-h2 {
-    font-size: 5rem;
-}
-
-h3 {
-    font-size: 3rem;
-}
-
-h4 {
-    font-size: 2rem;
-}
-
-h5 {
-    font-size: 1.5rem;
-}
-
-p {
-    margin-top: 0;
 }
 
 // Containers
@@ -99,7 +59,8 @@ p {
 }
 
 .form-field {
-    display: grid;
+    display: flex;
+    flex-direction: column;
 
     &:nth-child(2) {
         margin: 0 1.5rem;
@@ -160,6 +121,22 @@ p {
     }
 }
 
+.validation-error {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: $primary-light-red;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+.border-error {
+    border: 1.5px solid $primary-light-red !important;
+}
+
+.label-error {
+    color: $primary-light-red !important;
+}
+
 .attribution {
     margin-top: 1rem;
     text-align: center;
@@ -191,7 +168,7 @@ p {
     }
 
     .inputs {
-        width: 70%;
+        width: 80%;
 
         input {
             font-size: 3rem;
@@ -224,5 +201,9 @@ p {
         font-size: 10rem;
         line-height: 11rem;
         margin-top: 0;
+    }
+
+    .validation-error {
+        font-size: 1.2rem;
     }
 }

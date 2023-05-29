@@ -12,19 +12,22 @@
     <body>
         <div class="container">
             <div class="card">
-                <form>
+                <form class="form">
                     <div class="inputs">
                         <div class="form-field">
-                            <label for="day">DAY</label>
-                            <input type="number" id="day" value="" placeholder="DD" />
+                            <label for="dayInput">DAY</label>
+                            <input type="number" id="dayInput" placeholder="DD" />
+                            <p class="validation-error"></p>
                         </div>
                         <div class="form-field">
-                            <label for="month">MONTH</label>
-                            <input type="number" id="month" value="" placeholder="MM" />
+                            <label for="monthInput">MONTH</label>
+                            <input type="number" id="monthInput" placeholder="MM" />
+                            <p class="validation-error"></p>
                         </div>
                         <div class="form-field">
-                            <label for="year">YEAR</label>
-                            <input type="number" id="year" value="" placeholder="YYYY" />
+                            <label for="yearInput">YEAR</label>
+                            <input type="number" id="yearInput" placeholder="YYYY" />
+                            <p class="validation-error"></p>
                         </div>
                     </div>
                     <div class="btn-field">
@@ -35,8 +38,8 @@
                     </div>
                 </form>
                 <div class="output">
-                    <p><span class="output-year">--</span> years</p>
-                    <p><span class="output-month">--</span> months</p>
+                    <p><span class="output-years">--</span> years</p>
+                    <p><span class="output-months">--</span> months</p>
                     <p><span class="output-days">--</span> days</p>
                 </div>
             </div>
