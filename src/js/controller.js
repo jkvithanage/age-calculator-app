@@ -28,18 +28,25 @@ form.addEventListener("submit", (e) => {
 function calcAge() {
     const today = new Date();
     const age = {};
-    if (today.getMonth() - 1 < birthDate.month && today.getDate() < birthDate.day) {
-        age.years = today.getFullYear() - 1 - birthDate.year;
+    // today date < birth day date and today month < bd month => give 30 days to days, give 1 year to months
+    if (today.getMonth() + 1 < birthDate.month && today.getDate() < birthDate.day) {
+        age.years = today.getFullYear() - birthDate.year - 1;
         age.months = today.getMonth() + 1 - birthDate.month + 12 - 1;
         age.days = today.getDate() + 30 - birthDate.day;
-    } else if (today.getMonth() - 1 < birthDate.month) {
-        age.years = today.getFullYear() - 1 - birthDate.year;
+    } else if (today.getMonth() + 1 < birthDate.month && today.getDate() >= birthDate.day) {
+        age.years = today.getFullYear() - birthDate.year - 1;
         age.months = today.getMonth() + 1 - birthDate.month + 12;
         age.days = today.getDate() - birthDate.day;
-    } else if (today.getDate() < birthDate.day) {
-        age.years = today.getFullYear() - birthDate.year;
-        age.months = today.getMonth() + 1 - birthDate.month - 1;
-        age.days = today.getDate() + 30 - birthDate.day;
+    } else if (today.getMonth() + 1 >= birthDate.month && today.getDate() < birthDate.day) {
+        if (today.getMonth() + 1 - birthDate.month - 1 >= 0) {
+            age.years = today.getFullYear() - birthDate.year;
+            age.months = today.getMonth() + 1 - birthDate.month - 1;
+            age.days = today.getDate() + 30 - birthDate.day;
+        } else {
+            age.years = today.getFullYear() - birthDate.year - 1;
+            age.months = today.getMonth() + 1 - birthDate.month + 12 - 1;
+            age.days = today.getDate() + 30 - birthDate.day;
+        }
     } else {
         age.years = today.getFullYear() - birthDate.year;
         age.months = today.getMonth() + 1 - birthDate.month;
@@ -90,7 +97,7 @@ function isValidMonth(monthEl) {
 }
 
 function isValidYear(yearEl) {
-    if (Number(yearEl.value) > new Date().getFullYear()) {
+    if (Number(yearEl.value) >= new Date().getFullYear()) {
         renderInputError(yearEl, "Must be in the past");
         return false;
     }
