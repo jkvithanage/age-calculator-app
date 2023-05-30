@@ -18,14 +18,16 @@ form.addEventListener("submit", (e) => {
     });
 
     if (!isAnyInputsEmpty) {
+        const today = moment();
         const birthDate = moment({
             year: Number(yearInput.value),
             month: Number(monthInput.value) - 1,
             day: Number(dayInput.value),
         });
 
-        if (birthDate.isValid() && isValidYear(yearInput)) {
-            const age = calcAge(birthDate);
+        if (birthDate.isValid() && isValidYear(yearInput, today)) {
+            const age = calcAge(birthDate, today);
+            console.log(age);
             renderAge(age);
         } else {
             if (birthDate.invalidAt() === 1) {
@@ -39,10 +41,9 @@ form.addEventListener("submit", (e) => {
     }
 });
 
-function calcAge(birthDate) {
-    const today = moment();
+function calcAge(birthDate, today) {
     const age = {};
-    // today date < birth day date and today month < bd month => give 30 days to days, give 1 year to months
+
     if (today.month() < birthDate.month() && today.date() < birthDate.date()) {
         age.years = today.year() - birthDate.year() - 1;
         age.months = today.month() - birthDate.month() + 12 - 1;
@@ -87,17 +88,17 @@ function renderAge(age) {
 function counter(end, el) {
     let num = 0;
     const s = setInterval(function () {
-        el.innerHTML = num;
-        num++;
         if (num === end) {
             clearInterval(s);
         }
+        el.innerHTML = num;
+        num++;
     }, 30);
 }
 
-function isValidYear(yearEl) {
+function isValidYear(yearEl, today) {
     const year = Number(yearEl.value);
-    if (year >= new Date().getFullYear()) {
+    if (year >= today.year()) {
         renderInputError(yearEl, "Must be in the past");
         return false;
     }
