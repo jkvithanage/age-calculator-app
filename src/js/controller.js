@@ -1,55 +1,69 @@
-const btnSubmit = document.querySelector(".btn-submit");
-const form = document.querySelector(".form");
+import moment from "moment";
 
-const birthDate = {};
+const form = document.querySelector(".form");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const { dayInput, monthInput, yearInput } = e.target.elements;
 
-    if (!isEmpty(dayInput) && isValidDay(dayInput)) {
-        birthDate.day = Number(dayInput.value);
-    }
+    let isAnyInputsEmpty = false;
 
-    if (!isEmpty(monthInput) && isValidMonth(monthInput)) {
-        birthDate.month = Number(monthInput.value);
-    }
+    [dayInput, monthInput, yearInput].forEach((el) => {
+        if (!el.value) {
+            renderInputError(el, "This field is required");
+            isAnyInputsEmpty = true;
+        } else {
+            resetInput(el);
+        }
+    });
 
-    if (!isEmpty(yearInput) && isValidYear(yearInput)) {
-        birthDate.year = Number(yearInput.value);
-    }
+    if (!isAnyInputsEmpty) {
+        const birthDate = moment({
+            year: Number(yearInput.value),
+            month: Number(monthInput.value) - 1,
+            day: Number(dayInput.value),
+        });
 
-    if (birthDate.day && birthDate.month && birthDate.year) {
-        const age = calcAge();
-        renderAge(age);
+        if (birthDate.isValid() && isValidYear(yearInput)) {
+            const age = calcAge(birthDate);
+            renderAge(age);
+        } else {
+            if (birthDate.invalidAt() === 1) {
+                renderInputError(monthInput, "Must be a valid month");
+            }
+
+            if (birthDate.invalidAt() === 2) {
+                renderInputError(dayInput, "Must be a valid day");
+            }
+        }
     }
 });
 
-function calcAge() {
+function calcAge(birthDate) {
     const today = new Date();
     const age = {};
     // today date < birth day date and today month < bd month => give 30 days to days, give 1 year to months
-    if (today.getMonth() + 1 < birthDate.month && today.getDate() < birthDate.day) {
+    if (today.getMonth() < birthDate.month && today.getDate() < birthDate.day) {
         age.years = today.getFullYear() - birthDate.year - 1;
-        age.months = today.getMonth() + 1 - birthDate.month + 12 - 1;
+        age.months = today.getMonth() - birthDate.month + 12 - 1;
         age.days = today.getDate() + 30 - birthDate.day;
-    } else if (today.getMonth() + 1 < birthDate.month && today.getDate() >= birthDate.day) {
+    } else if (today.getMonth() < birthDate.month && today.getDate() >= birthDate.day) {
         age.years = today.getFullYear() - birthDate.year - 1;
-        age.months = today.getMonth() + 1 - birthDate.month + 12;
+        age.months = today.getMonth() - birthDate.month + 12;
         age.days = today.getDate() - birthDate.day;
-    } else if (today.getMonth() + 1 >= birthDate.month && today.getDate() < birthDate.day) {
-        if (today.getMonth() + 1 - birthDate.month - 1 >= 0) {
+    } else if (today.getMonth() >= birthDate.month && today.getDate() < birthDate.day) {
+        if (today.getMonth() - birthDate.month - 1 >= 0) {
             age.years = today.getFullYear() - birthDate.year;
-            age.months = today.getMonth() + 1 - birthDate.month - 1;
+            age.months = today.getMonth() - birthDate.month - 1;
             age.days = today.getDate() + 30 - birthDate.day;
         } else {
             age.years = today.getFullYear() - birthDate.year - 1;
-            age.months = today.getMonth() + 1 - birthDate.month + 12 - 1;
+            age.months = today.getMonth() - birthDate.month + 12 - 1;
             age.days = today.getDate() + 30 - birthDate.day;
         }
     } else {
         age.years = today.getFullYear() - birthDate.year;
-        age.months = today.getMonth() + 1 - birthDate.month;
+        age.months = today.getMonth() - birthDate.month;
         age.days = today.getDate() - birthDate.day;
     }
 
@@ -66,39 +80,15 @@ function renderAge(age) {
     daysEl.innerHTML = age.days;
 }
 
-function isEmpty(el) {
-    if (!el.value) {
-        renderInputError(el, "This field is required");
-        return true;
-    }
-
-    resetInput(el);
-    return false;
-}
-
-function isValidDay(dayEl) {
-    if (dayEl.value < 1 || dayEl.value > 31) {
-        renderInputError(dayEl, "Must be a valid day");
-        return false;
-    }
-
-    resetInput(dayEl);
-    return true;
-}
-
-function isValidMonth(monthEl) {
-    if (monthEl.value < 1 || monthEl.value > 12) {
-        renderInputError(monthEl, "Must be a valid month");
-        return false;
-    }
-
-    resetInput(monthEl);
-    return true;
-}
-
 function isValidYear(yearEl) {
-    if (Number(yearEl.value) >= new Date().getFullYear()) {
+    const year = Number(yearEl.value);
+    if (year >= new Date().getFullYear()) {
         renderInputError(yearEl, "Must be in the past");
+        return false;
+    }
+
+    if (year < 0 || !Number.isInteger(year)) {
+        renderInputError(yearEl, "Must be a valid year");
         return false;
     }
 
