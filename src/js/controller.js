@@ -40,31 +40,31 @@ form.addEventListener("submit", (e) => {
 });
 
 function calcAge(birthDate) {
-    const today = new Date();
+    const today = moment();
     const age = {};
     // today date < birth day date and today month < bd month => give 30 days to days, give 1 year to months
-    if (today.getMonth() < birthDate.month && today.getDate() < birthDate.day) {
-        age.years = today.getFullYear() - birthDate.year - 1;
-        age.months = today.getMonth() - birthDate.month + 12 - 1;
-        age.days = today.getDate() + 30 - birthDate.day;
-    } else if (today.getMonth() < birthDate.month && today.getDate() >= birthDate.day) {
-        age.years = today.getFullYear() - birthDate.year - 1;
-        age.months = today.getMonth() - birthDate.month + 12;
-        age.days = today.getDate() - birthDate.day;
-    } else if (today.getMonth() >= birthDate.month && today.getDate() < birthDate.day) {
-        if (today.getMonth() - birthDate.month - 1 >= 0) {
-            age.years = today.getFullYear() - birthDate.year;
-            age.months = today.getMonth() - birthDate.month - 1;
-            age.days = today.getDate() + 30 - birthDate.day;
+    if (today.month() < birthDate.month() && today.date() < birthDate.date()) {
+        age.years = today.year() - birthDate.year() - 1;
+        age.months = today.month() - birthDate.month() + 12 - 1;
+        age.days = today.date() + 30 - birthDate.date();
+    } else if (today.month() < birthDate.month() && today.date() >= birthDate.date()) {
+        age.years = today.year() - birthDate.year() - 1;
+        age.months = today.month() - birthDate.month() + 12;
+        age.days = today.date() - birthDate.date();
+    } else if (today.month() >= birthDate.month() && today.date() < birthDate.date()) {
+        if (today.month() - birthDate.month() - 1 >= 0) {
+            age.years = today.year() - birthDate.year();
+            age.months = today.month() - birthDate.month() - 1;
+            age.days = today.date() + 30 - birthDate.date();
         } else {
-            age.years = today.getFullYear() - birthDate.year - 1;
-            age.months = today.getMonth() - birthDate.month + 12 - 1;
-            age.days = today.getDate() + 30 - birthDate.day;
+            age.years = today.year() - birthDate.year() - 1;
+            age.months = today.month() - birthDate.month() + 12 - 1;
+            age.days = today.date() + 30 - birthDate.date();
         }
     } else {
-        age.years = today.getFullYear() - birthDate.year;
-        age.months = today.getMonth() - birthDate.month;
-        age.days = today.getDate() - birthDate.day;
+        age.years = today.year() - birthDate.year();
+        age.months = today.month() - birthDate.month();
+        age.days = today.date() - birthDate.date();
     }
 
     return age;
@@ -75,9 +75,24 @@ function renderAge(age) {
     const monthsEl = document.querySelector(".output-months");
     const daysEl = document.querySelector(".output-days");
 
-    yearsEl.innerHTML = age.years;
-    monthsEl.innerHTML = age.months;
-    daysEl.innerHTML = age.days;
+    counter(age.years, yearsEl);
+    setTimeout(() => {
+        counter(age.months, monthsEl);
+        setTimeout(() => {
+            counter(age.days, daysEl);
+        }, 200);
+    }, 100);
+}
+
+function counter(end, el) {
+    let num = 0;
+    const s = setInterval(function () {
+        el.innerHTML = num;
+        num++;
+        if (num === end) {
+            clearInterval(s);
+        }
+    }, 30);
 }
 
 function isValidYear(yearEl) {
