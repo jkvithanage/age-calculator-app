@@ -21,12 +21,12 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![](./assets/images/screenshot.gif)
 
 ### Links
 
--   Solution URL: [Add solution URL here](https://your-solution-url.com)
--   Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+-   Solution URL: [Frontend Mentor](https://www.frontendmentor.io/solutions/age-calculator-with-animated-numbers-QqSZZkYND4)
+-   Live Site URL: [Vercel](https://age-calculator-app-beryl.vercel.app/)
 
 ### Built with
 
